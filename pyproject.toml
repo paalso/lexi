@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lexi"
-version = "0.1.0"
+version = "1.0.0"
 description = "A command line Interactive English Dictionary"
 authors = ["paalso <40a.pvl@gmail.com>"]
 

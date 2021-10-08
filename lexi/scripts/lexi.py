@@ -23,6 +23,9 @@ def similar_word_output(lexicon, similar_word):
     print("\n".join(dfns))
     sys.exit(0)
 
+def capitalize_collocation(collocation):
+    return " ".join(token.capitalize() for token in collocation.split())
+
 
 def main():
     args = sys.argv
@@ -34,14 +37,27 @@ def main():
 
     with open(LEXICON_FILE, "r") as f:
         lexicon = json.load(f)
-        dfds = lexicon.keys()
+        dfds = lexicon.keys()       # definiendums
 
-        dfns = lexicon.get(word)
+        dfns = lexicon.get(word)    # definienses
         if dfns:
             print("\n".join(dfns))
             sys.exit(0)
 
         similar_words = difflib.get_close_matches(word, dfds, cutoff=CUTOFF)
+
+        if not word.islower():
+            similar_words.extend(
+                difflib.get_close_matches(word.lower(), dfds, cutoff=CUTOFF))
+
+        similar_words.extend(
+            difflib.get_close_matches(
+                capitalize_collocation(word), dfds, cutoff=CUTOFF))
+
+        similar_words.extend(
+            difflib.get_close_matches(word.upper(), dfds, cutoff=CUTOFF))
+
+        similar_words = sorted(set(similar_words))
 
         if len(similar_words) == 0:
             no_word_exit()
