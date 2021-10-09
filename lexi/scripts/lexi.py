@@ -1,11 +1,8 @@
 #!/usr/bin/env python
-import difflib
-import json
 import sys
+import json
+import difflib
 import lexi
-
-LEXICON_FILE = "lexi/data/data.json"
-CUTOFF = 0.85
 
 
 def numerize_items(items):
@@ -23,8 +20,21 @@ def similar_word_output(lexicon, similar_word):
     print("\n".join(dfns))
     sys.exit(0)
 
-def capitalize_collocation(collocation):
+
+def capitalize_each_token(collocation):
     return " ".join(token.capitalize() for token in collocation.split())
+
+
+TEXT_TRANSFORMS = (
+    lambda text: text,
+    lambda text: text.lower(),
+    lambda text: text.capitalize(),
+    capitalize_each_token,
+    lambda text: text.upper(),
+)
+
+LEXICON_FILE = "lexi/data/lexicon.json"
+CUTOFF = 0.85
 
 
 def main():
@@ -33,17 +43,24 @@ def main():
         print("Usage: lexi word or lexi \"words collocation\"")
         sys.exit(2)
     word = args[1]
-    print(word)
 
     with open(LEXICON_FILE, "r") as f:
         lexicon = json.load(f)
+
+        # We process the main possible forms of a word / collocation,
+        # in case it is entered with errors in the case of letters
+        for text_transform in TEXT_TRANSFORMS:
+            transformed_word = text_transform(word)
+            dfns = lexicon.get(transformed_word)    # definiens
+
+            if dfns:
+                print(transformed_word)
+                print("\n".join(dfns))
+                sys.exit(0)
+
+        # If no such form is found, we try to find similar words,
+        # in case grammatical errors were made
         dfds = lexicon.keys()       # definiendums
-
-        dfns = lexicon.get(word)    # definienses
-        if dfns:
-            print("\n".join(dfns))
-            sys.exit(0)
-
         similar_words = difflib.get_close_matches(word, dfds, cutoff=CUTOFF)
 
         if not word.islower():
@@ -52,22 +69,23 @@ def main():
 
         similar_words.extend(
             difflib.get_close_matches(
-                capitalize_collocation(word), dfds, cutoff=CUTOFF))
+                capitalize_each_token(word), dfds, cutoff=CUTOFF))
 
         similar_words.extend(
             difflib.get_close_matches(word.upper(), dfds, cutoff=CUTOFF))
 
-        similar_words = sorted(set(similar_words))
-
         if len(similar_words) == 0:
             no_word_exit()
 
+        similar_words = sorted(set(similar_words))
+
         if len(similar_words) == 1:
             similar_word, = similar_words
+
             answer = input(
-                ("Did you mean '{}' instead? Enter Y if yes, " + \
+                ("Did you mean '{}' instead? Enter y if yes, " + \
                 "any other key if no: ").format(similar_word))
-            if answer.upper() == "Y":
+            if answer.lower() == "y":
                 similar_word_output(lexicon, similar_word)
             no_word_exit()
 

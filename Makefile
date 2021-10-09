@@ -7,5 +7,5 @@ run:
 test:
 	poetry run pytest
 
-build: check
+build:
 	poetry build
