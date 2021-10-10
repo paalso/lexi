@@ -2,7 +2,6 @@
 import sys
 import json
 import difflib
-import lexi
 
 
 def numerize_items(items):
@@ -83,20 +82,20 @@ def main():
             similar_word, = similar_words
 
             answer = input(
-                ("Did you mean '{}' instead? Enter y if yes, " + \
-                "any other key if no: ").format(similar_word))
+                ("Did you mean '{}' instead? Enter y if yes, " +
+                 "any other key if no: ").format(similar_word))
             if answer.lower() == "y":
                 similar_word_output(lexicon, similar_word)
             no_word_exit()
 
         # i.e. len(similar_words) > 1
-        answer = int(input(
-            ("Did you mean one of the words '{}' instead? " + \
-            "Enter word id if yes, any other key if no: ")
-            .format(numerize_items(similar_words))))
+        answer = input(
+            ("Did you mean one of the words '{}' instead? " +
+             "Enter word id if yes, any other key if no: ")
+            .format(numerize_items(similar_words)))
         try:
             answer = int(answer)
-        except:
+        except ValueError:
             no_word_exit()
 
         if answer < 1 or answer > len(similar_words):
