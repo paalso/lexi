@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import sys
 import json
 import difflib
@@ -32,7 +33,7 @@ TEXT_TRANSFORMS = (
     lambda text: text.upper(),
 )
 
-LEXICON_FILE = "lexi/data/lexicon.json"
+LEXICON_FILE = "../data/lexicon.json"
 CUTOFF = 0.85
 
 
