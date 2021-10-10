@@ -33,7 +33,7 @@ TEXT_TRANSFORMS = (
     lambda text: text.upper(),
 )
 
-LEXICON_FILE = "../data/lexicon.json"
+LEXICON_FILE = "lexi/data/lexicon.json"
 CUTOFF = 0.85
 
 

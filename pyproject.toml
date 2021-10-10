@@ -3,6 +3,7 @@ name = "lexi"
 version = "1.1.2"
 description = "A command line Interactive English Dictionary"
 authors = ["paalso <40a.pvl@gmail.com>"]
+include = ["lexi/data/lexicon.json"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
