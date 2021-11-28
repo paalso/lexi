@@ -3,24 +3,25 @@
 import sys
 import json
 import pathlib
-# https://stackoverflow.com/questions/2860153/how-do-i-get-the-parent-directory-in-python
-
 import difflib
+import colorama
 
 
 def numerize_items(items):
     return ", ".join(f"{i} - {item}" for i, item in enumerate(items, 1))
 
 
-def no_word_exit():
-    print("The word doesn't exist. Please check it")
+def no_word_exit(word=""):
+    print("The word", end=" " if word else "")
+    print(WRONG_WORD_COLOR + word, end=" ")
+    print(DIALOG_COLOR + "doesn't exist. Please check it")
     sys.exit(1)
 
 
 def similar_word_output(lexicon, similar_word):
     dfns = lexicon[similar_word]
-    print(similar_word)
-    print("\n".join(dfns))
+    print(CORRECT_WORD_COLOR + similar_word)
+    print(DEFININITION_COLOR + "\n".join(dfns))
     sys.exit(0)
 
 
@@ -38,6 +39,11 @@ TEXT_TRANSFORMS = (
 
 LEXICON_FILE = "data/lexicon.json"
 CUTOFF = 0.85
+
+CORRECT_WORD_COLOR = colorama.Fore.GREEN
+WRONG_WORD_COLOR = colorama.Fore.RED
+DEFININITION_COLOR = colorama.Fore.LIGHTCYAN_EX
+DIALOG_COLOR = colorama.Fore.WHITE
 
 
 def main():
@@ -60,8 +66,8 @@ def main():
             dfns = lexicon.get(transformed_word)    # definiens
 
             if dfns:
-                print(transformed_word)
-                print("\n".join(dfns))
+                print(CORRECT_WORD_COLOR + transformed_word)
+                print(DEFININITION_COLOR + "\n".join(dfns))
                 sys.exit(0)
 
         # If no such form is found, we try to find similar words,
@@ -81,7 +87,7 @@ def main():
             difflib.get_close_matches(word.upper(), dfds, cutoff=CUTOFF))
 
         if len(similar_words) == 0:
-            no_word_exit()
+            no_word_exit(word)
 
         similar_words = sorted(set(similar_words))
 

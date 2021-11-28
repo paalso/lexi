@@ -20,4 +20,4 @@ or
 lexi "words collocation"
 ```
 
-[![asciicast](https://asciinema.org/a/zXYfKsevTO4pY94jpxjMrt9Ij.svg)](https://asciinema.org/a/zXYfKsevTO4pY94jpxjMrt9Ij)
+[![asciicast](https://asciinema.org/a/oQGCeXSD2G2oNXyh68DPtz20l.svg)](https://asciinema.org/a/oQGCeXSD2G2oNXyh68DPtz20l)
