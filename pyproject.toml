@@ -6,6 +6,7 @@ authors = ["paalso <40a.pvl@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
+colorama = "^0.4.4"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
