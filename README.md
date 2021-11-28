@@ -1,6 +1,6 @@
 # lexi
-#### Small command line Interactive English Dictionary (Lexicon)
 
+#### A command line interactive English dictionary (lexicon)
 
 ##### Installation:
 
@@ -9,10 +9,13 @@ pip install --user git+https://github.com/paalso/lexi.git
 ```
 
 ##### Usage:
+
 ```sh
 lexi word
 ```
+
 or
+
 ```sh
 lexi "words collocation"
 ```

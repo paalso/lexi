@@ -2,6 +2,9 @@
 
 import sys
 import json
+import pathlib
+# https://stackoverflow.com/questions/2860153/how-do-i-get-the-parent-directory-in-python
+
 import difflib
 
 
@@ -33,7 +36,7 @@ TEXT_TRANSFORMS = (
     lambda text: text.upper(),
 )
 
-LEXICON_FILE = "lexi/data/lexicon.json"
+LEXICON_FILE = "data/lexicon.json"
 CUTOFF = 0.85
 
 
@@ -44,7 +47,10 @@ def main():
         sys.exit(2)
     word = args[1]
 
-    with open(LEXICON_FILE, "r") as f:
+    data_file_fullname = pathlib.Path(
+        pathlib.Path(__file__).parent.parent, LEXICON_FILE)
+
+    with open(data_file_fullname, "r") as f:
         lexicon = json.load(f)
 
         # We process the main possible forms of a word / collocation,
