@@ -7,24 +7,6 @@ import difflib
 import colorama
 
 
-def numerize_items(items):
-    return ", ".join(f"{i} - {item}" for i, item in enumerate(items, 1))
-
-
-def no_word_exit(word):
-    print("The word ", end="")
-    print(WRONG_WORD_COLOR + word, end="")
-    print(DIALOG_COLOR + " doesn't exist. Please check it")
-    sys.exit(1)
-
-
-def similar_word_output(lexicon, similar_word):
-    dfns = lexicon[similar_word]
-    print(CORRECT_WORD_COLOR + similar_word)
-    print(DEFININITION_COLOR + "\n".join(dfns))
-    sys.exit(0)
-
-
 def capitalize_each_token(collocation):
     return " ".join(token.capitalize() for token in collocation.split())
 
@@ -46,12 +28,33 @@ DEFININITION_COLOR = colorama.Fore.LIGHTCYAN_EX
 DIALOG_COLOR = colorama.Fore.WHITE
 
 
-def main():
+def numerize_items(items):
+    return ", ".join(f"{i} - {item}" for i, item in enumerate(items, 1))
+
+
+def no_word_exit(word):
+    print("The word ", end="")
+    print(WRONG_WORD_COLOR + word, end="")
+    print(DIALOG_COLOR + " doesn't exist. Please check it")
+    sys.exit(1)
+
+
+def similar_word_output(lexicon, similar_word):
+    dfns = lexicon[similar_word]
+    print(CORRECT_WORD_COLOR + similar_word)
+    print(DEFININITION_COLOR + "\n".join(dfns))
+    sys.exit(0)
+
+
+def get_word_from_cli():
     args = sys.argv
     if len(args) != 2:
         print("Usage: lexi word or lexi \"words collocation\"")
         sys.exit(2)
-    word = args[1]
+    return args[1]
+
+
+def process_word(word):
 
     data_file_fullname = pathlib.Path(
         pathlib.Path(__file__).parent.parent, LEXICON_FILE)
@@ -116,6 +119,10 @@ def main():
 
         similar_word = similar_words[answer - 1]
         similar_word_output(lexicon, similar_word)
+
+
+def main():
+    process_word(get_word_from_cli())
 
 
 if __name__ == '__main__':
