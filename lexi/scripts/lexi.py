@@ -11,10 +11,10 @@ def numerize_items(items):
     return ", ".join(f"{i} - {item}" for i, item in enumerate(items, 1))
 
 
-def no_word_exit(word=""):
-    print("The word", end=" " if word else "")
-    print(WRONG_WORD_COLOR + word, end=" ")
-    print(DIALOG_COLOR + "doesn't exist. Please check it")
+def no_word_exit(word):
+    print("The word ", end="")
+    print(WRONG_WORD_COLOR + word, end="")
+    print(DIALOG_COLOR + " doesn't exist. Please check it")
     sys.exit(1)
 
 
@@ -99,7 +99,7 @@ def main():
                  "any other key if no: ").format(similar_word))
             if answer.lower() == "y":
                 similar_word_output(lexicon, similar_word)
-            no_word_exit()
+            no_word_exit(word)
 
         # i.e. len(similar_words) > 1
         answer = input(
@@ -109,10 +109,10 @@ def main():
         try:
             answer = int(answer)
         except ValueError:
-            no_word_exit()
+            no_word_exit(word)
 
         if answer < 1 or answer > len(similar_words):
-            no_word_exit()
+            no_word_exit(word)
 
         similar_word = similar_words[answer - 1]
         similar_word_output(lexicon, similar_word)
