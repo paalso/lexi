@@ -7,4 +7,4 @@ dist/
 coverage.xml
 .pytest_cache/
 .vim
-.vs
+.vs*
